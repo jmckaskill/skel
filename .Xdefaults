@@ -1,0 +1,9 @@
+URxvt.background: Black
+URxvt.foreground: White
+URxvt.visualBell: False
+URxvt.scrollBar: False
+URxvt.scrollTtyOutput: False
+URxvt.scrollWithBuffer: True
+URxvt.scrollTtyKeypress: True
+URxvt.pasteableTabs: True
+
