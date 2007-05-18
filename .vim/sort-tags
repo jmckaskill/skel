@@ -1,0 +1,81 @@
+#! /usr/bin/perl -w
+#
+# Sort function that works on tags files by putting more important
+# things first.  Assumes input is already lexicographically sorted.
+#
+# Copyright (C) 2000  Pete Wyckoff  (pw@osc.edu)
+# Use the directory depth of a file as a tie breaker.  -mjfrazer@mjfrazer.org
+#
+
+# Order of importance.  Most important things first.
+#   n namespaces
+#   s struct
+#   c classes
+#   t type
+#   u union
+#   g enumeration names
+#   f functions
+#   v global variable
+#   e enum members
+#   d defines
+#   l labels, as in assembly or goto targets
+#   m member, of struct
+#
+#   p function prototypes
+#   x extern declarations
+#   i interfaces
+#
+$order = "nsctugfvedlmpxi";
+
+sub getindex($$) {
+    my ($line, $tag) = @_;
+    if (length($tag) != 1) {
+	print STDERR "$0: expecting one character in $tag for line $line";
+	exit 1;
+    }
+    my $i = index $order, $tag;
+    if ($i < 0) {
+	print STDERR "$0: tag type character $tag not found in line $line";
+	exit 1;
+    }
+    return $i;
+}
+
+sub sorttagtype() {
+    my $aindex = getindex($$a[0], $$a[2]);
+    my $bindex = getindex($$b[0], $$b[2]);
+    $aindex <=> $bindex || $$a[3] <=> $$b[3];
+}
+
+sub flush() {
+    map { print $$_[0]; } sort sorttagtype @wordset;
+    undef @wordset;
+}
+
+while (<>) {
+    if (/^!/) {
+	print;
+	next;
+    }
+    if (!/([^\t]*)\t([^\t]*)\t.*"\t(.).*/) {
+	print STDERR "$0: non-conforming tag line $_\n";
+	exit 1;
+    }
+    my $word = $1;
+    my $file = $2;
+    my $type = $3;
+    $file =~ s#[^/]##g;
+    $file = length $file;
+    # print "word $word file $file type $type dollarnum $#wordset\n";
+    if ($#wordset >= 0) {
+	my $aref = $wordset[0];
+	if ($$aref[1] ne $word) {
+	    flush();
+	}
+    }
+    push @wordset, [ $_, $word, $type, $file ];
+}
+
+flush();
+
+exit 0

@@ -1,0 +1,73 @@
+HISTFILE=~/.zhistory
+HISTSIZE=1000
+SAVEHIST=1000
+
+PROMPT="%n@%m:%~%# "      # boring prompt
+bindkey -e                # Emacs-style keybindings
+setopt appendhistory      # append to HISTFILE
+setopt autocd             # go to directories without "cd"
+setopt extendedglob       # wacky zsh-specific pattern matching
+setopt nocheckjobs        # don't complain about background jobs on exit
+setopt nohup              # don't kill background jobs on exit
+setopt printexitvalue     # print exit value from jobs
+setopt noautoremoveslash
+autoload -U select-word-style
+select-word-style bash    # make word boundaries and stuff work like Bash
+
+# useful aliases
+alias ls="ls --color=auto"
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias df='df -T --si -xtmpfs -xusbfs'
+alias ss='screen -Rx'
+alias ll='ls -l --color=auto'
+alias lh='ls -lh --color=auto'
+alias llh='ls -lh --color=auto'
+alias latrh='ls -latrh --color=auto'
+
+# cache completions (useful for apt/dpkg package completions)
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# complete SSH hosts
+local _myhosts
+_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+zstyle ':completion:*' hosts $_myhosts
+
+# screen integration to set caption bar dynamically
+function title {
+  if [[ $TERM == "screen" || $TERM == "screen.linux" ]]; then
+    # Use these two for GNU Screen:
+    print -nR $'\033k'$1$'\033'\\\
+
+    print -nR $'\033]0;'$2$'\a'
+  elif [[ $TERM == "xterm" || $TERM == "rxvt" ]]; then
+    # Use this one instead for XTerms:
+    print -nR $'\033]0;'$*$'\a'
+  fi
+}
+  
+function precmd {
+  echo -ne '\033[?17;0;127c'
+}
+  
+function preexec {
+  emulate -L zsh
+  local -a cmd; cmd=(${(z)1})
+  if [[ $cmd[1]:t == "ssh" ]]; then
+    title "@"$cmd[2] "urxvt $cmd"
+  elif [[ $cmd[1]:t == "sudo" ]]; then
+    title "#"$cmd[2]:t "urxvt $cmd[3,-1]"
+  elif [[ $cmd[1]:t == "for" ]]; then
+    title "()"$cmd[7] "urxvt $cmd"
+  elif [[ $cmd[1]:t == "svn" ]]; then
+    title "$cmd[1,2]" "urxvt $cmd"
+  else
+    title $cmd[1]:t "urxvt $cmd[2,-1]"
+  fi
+}
+
+export EDITOR="vim"
+export PATH="/var/lib/gems/1.8/bin:$PATH"
+fortune
