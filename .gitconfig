@@ -1,0 +1,7 @@
+[user]
+	name = "James R. McKaskill"
+	email = "jmckaskill@gmail.com"
+[color]
+	status = auto
+	diff = auto
+	branch = auto

@@ -70,6 +70,7 @@ alias make-kernel='sudo make all modules_install install'
 alias ripdvd='dvd9to5.pl -D'
 alias hex='od -Ax -tx1z -v'
 alias internet-usage='ssh server sudo internet-usage'
+alias cosctunnel='ssh cosctunnel ./tunnel/server'
 function launch() { "$@" &>/dev/null &disown ; }
 function title() { echo -ne "\033]0;${1}\007"; }
 function oxine() { \oxine -L -J -F "$@" &>/dev/null ; }
@@ -82,3 +83,4 @@ export EDITOR=vim
 unset IFS
 
 echo -e "Logging in to $(tty)...\nWelcome to $(hostname), $(whoami).\nThe time is now $(date +%H:%M:%S), on $(date +%A), $(date +%d\ %B\,\ %G)."
+cd
