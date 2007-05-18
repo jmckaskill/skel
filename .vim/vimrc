@@ -763,13 +763,13 @@ map <leader>s? z=
 " => Cope
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "For Cope
-map <silent> <leader><cr> :noh<cr>
+"map <silent> <leader><cr> :noh<cr>
 
 "Orginal for all
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-map <leader>c :botright cw 10<cr>
-map <c-u> <c-l><c-j>:q<cr>:botright cw 10<cr>
+"map <leader>n :cn<cr>
+"map <leader>p :cp<cr>
+"map <leader>c :botright cw 10<cr>
+"map <c-u> <c-l><c-j>:q<cr>:botright cw 10<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
