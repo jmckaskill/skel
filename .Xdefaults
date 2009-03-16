@@ -6,4 +6,11 @@ URxvt.scrollTtyOutput: False
 URxvt.scrollWithBuffer: True
 URxvt.scrollTtyKeypress: True
 URxvt.pasteableTabs: True
+Mrxvt.scrollBar: False
+Mrxvt.scrollWithBuffer: True
+Mrxvt.background: Black
+Mrxvt.foreground: White
+Mrxvt.scrollTtyOutputInhibit: True
+Mrxvt.bottomTabbar: True
+Mrxvt.smoothResize: True
 
