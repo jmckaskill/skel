@@ -5,3 +5,5 @@
 	status = auto
 	diff = auto
 	branch = auto
+[sendemail]
+	smtpserver = /usr/bin/msmtp
