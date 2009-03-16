@@ -1,7 +1,0 @@
-#!/bin/bash
-
-#echo "Generating tags for $1..."
-mkdir -p $2/$1
-rm -rf $2/$1/*
-./generate_ctags.rb $PWD/$1 --outputdir $2/$1
-./sort-tags < $2/$1 > $2/$1.tmp && mv $2/$1.tmp $2/$1

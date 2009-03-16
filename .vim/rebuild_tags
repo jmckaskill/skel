@@ -1,9 +1,0 @@
-#!/bin/bash
-
-rm -rf ~/tags/*
-ls -lL | grep '^d' | sed -e 's/^.* \([^ ]*\)$/\1/g' | xargs --replace ./ctags_to_file {} ~/tags
-echo test
-ctags -R /usr/include && mv tags ~/tags/public
-#ctags -R /usr/src/linux-2.6.18 && mv tags ~/tags/kernel
-find ~/tags -type f | sed -e 's/^\(.*\)$/set tags+=\1/g' > vimrc_local
-mv vimrc_local ~/.vimrc_local
