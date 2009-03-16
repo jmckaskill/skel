@@ -1,0 +1,13 @@
+port_range = 10800-10899
+upload_rate = 4
+peer_exchange = yes
+key_layout = dvorak
+directory = ~/downloads/rtorrent/
+schedule = watch_directory,5,5,load_start=~/downloads/rtorrent/.torrents-cur/*
+schedule = tied_directory,5,5,start_tied=
+schedule = untied_directory,5,5,close_untied=
+schedule = stop_finished,5,5,close_on_ratio=-1
+#on_finished = move_finished,"execute=mv,-u,$d.get_base_path=,~/downloads/rtorrent/ ; d.set_directory=~/downloads/rtorrent/"
+
+dht = auto
+dht_port = 10364
